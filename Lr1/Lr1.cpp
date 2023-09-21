@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <iomanip>
-using namespace std;
 
 class GrowingArray {
 public:
@@ -61,7 +60,7 @@ public:
     double pop()
     {
         if (this->length == 0)
-            throw out_of_range("Массив уже пуст");
+            throw std::out_of_range("Массив уже пуст");
         double deletedValue = this->array[this->length];
         this->length -= 1;
         // Удаляем пустые ячейки, если их слишком много.
@@ -116,13 +115,13 @@ public:
     double& operator[] (const int index)
     {
         if (index < 0 || index >= this->length)
-            throw out_of_range("Индекс за пределами массива");
+            throw std::out_of_range("Индекс за пределами массива");
         return this->array[index];
     }
 
-    friend ostream& operator<< (ostream& os, const GrowingArray& arr) {
+    friend std::ostream& operator<< (std::ostream& os, const GrowingArray& arr) {
         for (int i = 0; i < arr.length; i++) {
-            os << setprecision(3) << fixed;
+            os << std::setprecision(3) << std::fixed;
             os << arr.array[i] << " ";
         }
         return os;
@@ -157,48 +156,48 @@ private:
 * Трижды выводит строки в консоль с некоторыми манипуляциям.
 */
 void showGrowingArray(GrowingArray& arr) {
-    cout << arr.getLength() << endl;
-    cout << arr << endl;
+    std::cout << arr.getLength() << std::endl;
+    std::cout << arr << std::endl;
     double sum = arr.getSum();
     double avg = arr.getAvg();
     arr.push(sum);
     arr.push(avg);
-    cout << arr << endl;
+    std::cout << arr << std::endl;
     arr.appendToAll(arr.getNegativeSum()/2);
-    cout << arr << endl;
+    std::cout << arr << std::endl;
 }
 
 int main()
 {
     // Инициализация
     int initLength = 0;
-    cin >> initLength;
+    std::cin >> initLength;
     double* initArray = new double[initLength];
     for (int i = 0; i < initLength; i++)
-        cin >> initArray[i];
+        std::cin >> initArray[i];
     GrowingArray arr = GrowingArray(initArray, initLength);
     delete[] initArray;
 
     // Задание
-    cout << arr.getLength() << endl;
+    std::cout << arr.getLength() << std::endl;
     showGrowingArray(arr);
 
     // Команды
     int action;
-    cin >> action;
+    std::cin >> action;
     while (action != 0) {
         if (action == 1) {
             double value;
-            cin >> value;
+            std::cin >> value;
             arr.push(value);
-            cout << "+: ";
+            std::cout << "+: ";
         }
         if (action == 2) {
             arr.pop();
-            cout << "-: ";
+            std::cout << "-: ";
         }
         showGrowingArray(arr);
-        cin >> action;
+        std::cin >> action;
     }
 
     return 0;
